@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Pathing Algorithm Visualizer</title>
+    <link rel="stylesheet" href="src/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="src/home.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand navbar-centering-left" href="#">
+          <img src="img/TestImageWhiteBG.png" width="30" height="30" alt="">
+        </a>
+        <a class="navbar-brand" href="#" onClick="testFunc()">
+            <img src="img/TestImageWhiteBG.png" width="30" height="30" alt="">
+          </a>
+          <a class="navbar-brand navbar-centering-right" href="#">
+            <img src="img/TestImageWhiteBG.png" width="30" height="30" alt="">
+          </a>
+    </nav>
+    <div id="pathing-grid-container" class="main-body">
+        <!-- Load React. -->
+        <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
+        <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+
+        <!-- Load our React component. -->
+        <script src="src/pathing-grid.js"></script>
+    </div>
+</body>
