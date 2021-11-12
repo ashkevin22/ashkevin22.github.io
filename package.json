@@ -1,0 +1,20 @@
+{
+  "type": "module",
+  "name": "pathing-algo-app",
+  "description": "Webpage that allows you to visualize different pathing algorithms",
+  "version": "1.0.0",
+  "main": "pathing-grid.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ashkevin22/pathing-algo-app.git"
+  },
+  "author": "Kevin Ash",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ashkevin22/pathing-algo-app/issues"
+  },
+  "homepage": "https://github.com/ashkevin22/pathing-algo-app#readme"
+}

@@ -1,3 +1,5 @@
+// import {djikstra} from '../algorithms/djikstra.js'
+
 'use strict';
 
 const e = React.createElement;
@@ -76,6 +78,70 @@ function printGrid(){
   console.log(grid);
 }
 
+function djikstra(grid, startRow, startCol, colSize, rowSize){
+  var pathArr = [];
+  var visitedArr = [];
+  var currentRow = startRow;
+  var currentCol = startCol;
+  var newGrid = JSON.parse(JSON.stringify(grid))
+  for(var i = 0; i < rowSize; i++){
+      for(var j = 0; j < colSize; j++){
+        newGrid[i][j].distance = Number.MAX_SAFE_INTEGER;
+      }
+  }
+  newGrid[startRow][startCol].distance = 0;
+  var dirs = [[0,1],[1,0],[-1,0],[0,-1]];
+  var currentNode = newGrid[currentRow][currentCol];
+  while(currentNode.isFinish != true){
+      dirs.forEach(dir => {
+          if(currentNode.row+dir[0] >= 0 && currentNode.col+dir[1] >= 0 && currentNode.row+dir[0] < rowSize && currentNode.col+dir[1] < colSize){
+              var searchingNode = newGrid[currentNode.row+dir[0]][currentNode.col+dir[1]];
+              if(searchingNode.distance > currentNode.distance+1){
+                  newGrid[currentNode.row+dir[0]][currentNode.col+dir[1]].distance = currentNode.distance+1;
+                  newGrid[currentNode.row+dir[0]][currentNode.col+dir[1]].previousNode = newGrid[currentNode.row][currentNode.col]
+              }
+          }
+      });
+      newGrid[currentNode.row][currentNode.col].visited = true;
+      visitedArr.push(newGrid[currentNode.row][currentNode.col]);
+      var nextCurrent = {
+          distance: Number.MAX_SAFE_INTEGER
+      }
+      for(let row = 0; row < rowSize; row++){
+          for(let col = 0; col < colSize; col++){
+              if(newGrid[row][col].distance < nextCurrent.distance && newGrid[row][col].visited == false){
+                  nextCurrent = newGrid[row][col];
+              }
+          }
+      }
+      if(nextCurrent.distance == Number.MAX_SAFE_INTEGER){
+          console.log("no other reachable nodes");
+          return -1;
+      }
+      newGrid[currentNode.row][currentNode.col].visited = true;
+      currentNode = nextCurrent;
+    }
+    while(currentNode.isStart != true){
+      pathArr.unshift(currentNode);
+      currentNode = currentNode.previousNode;
+    }
+  console.log("finished");
+  refreshGrid();
+  var returnArr = [pathArr, visitedArr];
+  return returnArr;
+}
+
+function onClickDjikstra(){
+  var returnedArr = djikstra(grid, startRow, startCol, numSquaresInRow, numRowsInGrid);
+  var pathArr = returnedArr[0];
+  var visitedArr = returnedArr[1];
+  for(let i = 0; i < visitedArr.length; i++){
+    setTimeout(() => {
+      grid[visitedArr[i].row][visitedArr[i].col] = visitedArr[i];
+      refreshGrid();
+    }, 15 * i);
+  }
+}
 
 //============End of function Declarations============\\
 
@@ -209,7 +275,7 @@ class Square extends React.Component {
     if(this.props.squareArr.isFinish){
       imgDisplay.push(e('img', {src: '../img/pixelTarget.png', className: 'img', height: '34px', width: '30px',key:`${this.props.value}`,}));
     }
-    return (e('button',{className: `square btn-default w-100 ${this.props.squareArr.wall ? 'wall' : ''} ${this.props.squareArr.coin ? 'coin' : ''}`, 
+    return (e('button',{className: `square btn-default w-100 ${this.props.squareArr.wall ? 'wall' : ''} ${this.props.squareArr.coin ? 'coin' : ''} ${this.props.squareArr.visited ? 'visited' : ''}`, 
     onMouseOver:(e) => this.changeInsideSquareDrag(e), 
     onMouseDown:() => this.changeInsideSquareMdown(),
     onMouseUp:() => this.changeInsideSquareMup(),

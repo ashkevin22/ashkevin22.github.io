@@ -44,3 +44,7 @@
   padding-bottom: 5px;
   pointer-events: none;
 }
+
+.visited {
+  background: blue;
+}
