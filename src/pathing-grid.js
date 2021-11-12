@@ -36,12 +36,6 @@ function createNode(row, col){
   };
 }
 
-function refreshGrid(){
-  const domContainer = document.querySelector('#pathing-grid-container');
-  ReactDOM.render(e(Grid, {gridArr: grid}), domContainer);
-  return grid;
-}
-
 function refreshGridResize(){
   console.log("here");
   grid = [];
@@ -125,21 +119,31 @@ function djikstra(grid, startRow, startCol, colSize, rowSize){
       pathArr.unshift(currentNode);
       currentNode = currentNode.previousNode;
     }
-  console.log("finished");
-  refreshGrid();
-  var returnArr = [pathArr, visitedArr];
-  return returnArr;
+    pathArr.unshift(currentNode);
+    console.log("finished");
+    var returnArr = [pathArr, visitedArr];
+    return returnArr;
 }
 
 function onClickDjikstra(){
   var returnedArr = djikstra(grid, startRow, startCol, numSquaresInRow, numRowsInGrid);
   var pathArr = returnedArr[0];
   var visitedArr = returnedArr[1];
-  for(let i = 0; i < visitedArr.length; i++){
+  for(let i = 0; i < (visitedArr.length+pathArr.length); i++){
     setTimeout(() => {
-      grid[visitedArr[i].row][visitedArr[i].col] = visitedArr[i];
-      refreshGrid();
-    }, 15 * i);
+      if(i < visitedArr.length){
+        grid[visitedArr[i].row][visitedArr[i].col].visited = true;
+        var id = (visitedArr[i].row*numSquaresInRow) + visitedArr[i].col;
+        var element = document.getElementById(id);
+        element.classList.add('visited');
+      }else{
+        grid[visitedArr[i-visitedArr.length].row][visitedArr[i-visitedArr.length].col].visited = false;
+        var id = (pathArr[i-visitedArr.length].row*numSquaresInRow) + pathArr[i-visitedArr.length].col;
+        var element = document.getElementById(id);
+        element.classList.add('path');
+        element.classList.remove('visited');
+      }
+    }, 10 * i);
   }
 }
 
@@ -275,7 +279,7 @@ class Square extends React.Component {
     if(this.props.squareArr.isFinish){
       imgDisplay.push(e('img', {src: '../img/pixelTarget.png', className: 'img', height: '34px', width: '30px',key:`${this.props.value}`,}));
     }
-    return (e('button',{className: `square btn-default w-100 ${this.props.squareArr.wall ? 'wall' : ''} ${this.props.squareArr.coin ? 'coin' : ''} ${this.props.squareArr.visited ? 'visited' : ''}`, 
+    return (e('button',{className: `square btn-default w-100 ${this.props.squareArr.wall ? 'wall' : ''} ${this.props.squareArr.coin ? 'coin' : ''}`, 
     onMouseOver:(e) => this.changeInsideSquareDrag(e), 
     onMouseDown:() => this.changeInsideSquareMdown(),
     onMouseUp:() => this.changeInsideSquareMup(),
