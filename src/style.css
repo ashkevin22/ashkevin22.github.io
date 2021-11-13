@@ -49,6 +49,10 @@
   background: blue;
 }
 
+.visited2 {
+  background: green;
+}
+
 .path {
   background: yellow;
 }

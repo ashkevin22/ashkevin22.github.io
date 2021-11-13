@@ -6,6 +6,7 @@ export function djikstra(grid, startRow, startCol, colSize, rowSize){
   var visitedArr = [];
   var currentRow = startRow;
   var currentCol = startCol;
+  var foundCoinIndex = -1;
   var newGrid = JSON.parse(JSON.stringify(grid))
   for(var i = 0; i < rowSize; i++){
       for(var j = 0; j < colSize; j++){
@@ -60,6 +61,7 @@ export function djikstra(grid, startRow, startCol, colSize, rowSize){
     newGrid[currentNode.row][currentNode.col].visited = true;
     currentNode = nextCurrent;
   }
+  foundCoinIndex = visitedArr.length;
   while(currentNode.previousNode != null){
     pathArr.unshift(currentNode);
     currentNode = currentNode.previousNode;
@@ -71,7 +73,7 @@ export function djikstra(grid, startRow, startCol, colSize, rowSize){
       }
   }
   newGrid[startRow][startCol].distance = 0;
-  var currentNode = newGrid[currentRow][currentCol];
+  var currentNode = newGrid[startRow][startCol];
   while(currentNode.isFinish != true){
       dirs.forEach(dir => {
           if(currentNode.row+dir[0] >= 0 && currentNode.col+dir[1] >= 0 && currentNode.row+dir[0] < rowSize && currentNode.col+dir[1] < colSize){
@@ -107,6 +109,6 @@ export function djikstra(grid, startRow, startCol, colSize, rowSize){
       currentNode = currentNode.previousNode;
     }
     pathArr.push.apply(pathArr, pathArr2);
-    var returnArr = [pathArr, visitedArr];
+    var returnArr = [pathArr, visitedArr, foundCoinIndex];
     return returnArr;
 }

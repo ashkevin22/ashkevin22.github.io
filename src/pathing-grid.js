@@ -70,9 +70,11 @@ export function onClickDjikstra(){
   var returnedArr = djikstra(grid, startRow, startCol, numSquaresInRow, numRowsInGrid);
   var pathArr = returnedArr[0];
   var visitedArr = returnedArr[1];
+  var coinIndex = returnedArr[2];
   if(pathArr == -1){
     for(let i = 0; i < (visitedArr.length); i++){
       setTimeout(() => {
+        console.log(coinIndex);
         grid[visitedArr[i].row][visitedArr[i].col].visited = true;
         var id = (visitedArr[i].row*numSquaresInRow) + visitedArr[i].col;
         var element = document.getElementById(id);
@@ -84,10 +86,18 @@ export function onClickDjikstra(){
   for(let i = 0; i < (visitedArr.length+pathArr.length); i++){
     setTimeout(() => {
       if(i < visitedArr.length){
-        grid[visitedArr[i].row][visitedArr[i].col].visited = true;
-        var id = (visitedArr[i].row*numSquaresInRow) + visitedArr[i].col;
-        var element = document.getElementById(id);
-        element.classList.add('visited');
+        if(i >= coinIndex && coinIndex != 0){
+          grid[visitedArr[i].row][visitedArr[i].col].visited = true;
+          var id = (visitedArr[i].row*numSquaresInRow) + visitedArr[i].col;
+          var element = document.getElementById(id);
+          console.log(id);
+          element.classList.add('visited2');
+        }else{
+          grid[visitedArr[i].row][visitedArr[i].col].visited = true;
+          var id = (visitedArr[i].row*numSquaresInRow) + visitedArr[i].col;
+          var element = document.getElementById(id);
+          element.classList.add('visited');
+        }
       }else{
         grid[visitedArr[i-visitedArr.length].row][visitedArr[i-visitedArr.length].col].visited = false;
         var id = (pathArr[i-visitedArr.length].row*numSquaresInRow) + pathArr[i-visitedArr.length].col;
