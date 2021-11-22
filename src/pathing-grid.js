@@ -15,6 +15,7 @@ var dragStart = false;
 var dragFinish = false;
 var grid = [];
 
+//initialize the grid
 for (let row = 0; row < numRowsInGrid; row++) {
     var currentRow = [];
     for (let col = 0; col < numSquaresInRow; col++) {
@@ -23,6 +24,7 @@ for (let row = 0; row < numRowsInGrid; row++) {
     grid.push(currentRow);
 }
 
+//helper function to create a new node
 function createNode(row, col) {
     return {
         col: col,
@@ -37,6 +39,7 @@ function createNode(row, col) {
     };
 }
 
+//stop displaying path and visited nodes when something is changed
 function removeAlgo() {
     for (let row = 0; row < numRowsInGrid; row++) {
         for (let col = 0; col < numSquaresInRow; col++) {
@@ -47,24 +50,27 @@ function removeAlgo() {
                 element.classList.remove("visited");
                 element.classList.remove("visited2");
                 element.classList.remove("path");
+                element.classList.remove("path2");
             }
         }
     }
 }
 
+//recalculate how many rows and cols are needed when window is refreshed
 function refreshGridResize() {
     grid = [];
     w = window.innerWidth;
     h = window.innerHeight;
 
     numSquaresInRow = Math.floor(w / 32);
-    numRowsInGrid = Math.floor(h / 32 - 3);
+    numRowsInGrid = Math.floor(h / 32 - 4);
     rowNum = 0;
     startRow = Math.floor(numRowsInGrid / 2);
     startCol = Math.floor(numSquaresInRow / 5);
     finishRow = Math.floor(numRowsInGrid / 2);
     finishCol = Math.floor(4 * (numSquaresInRow / 5));
 
+    //create a new grid with the new number of nodes
     for (let row = 0; row < numRowsInGrid; row++) {
         var currentRow = [];
         for (let col = 0; col < numSquaresInRow; col++) {
@@ -72,18 +78,23 @@ function refreshGridResize() {
         }
         grid.push(currentRow);
     }
+    //remove any leftover path or visited nodes
     removeAlgo();
     const domContainer = document.querySelector("#pathing-grid-container");
     ReactDOM.render(e(Grid, { gridArr: grid }), domContainer);
     return grid;
 }
 
+//when called, run and display the djikstra path
 export function onClickDjikstra() {
+    //remove previous algos
     removeAlgo();
     var returnedArr = djikstra(grid, startRow, startCol, numSquaresInRow, numRowsInGrid);
     var pathArr = returnedArr[0];
     var visitedArr = returnedArr[1];
     var coinIndex = returnedArr[2];
+    var coinIndexPath = returnedArr[3];
+    //if a path was not found, only display the visitedArr
     if (pathArr == -1) {
         for (let i = 0; i < visitedArr.length; i++) {
             setTimeout(() => {
@@ -95,31 +106,54 @@ export function onClickDjikstra() {
         }
         return;
     }
+    //path was found
     for (let i = 0; i < visitedArr.length + pathArr.length; i++) {
         setTimeout(() => {
+            //if i is in visited arr, display visited arr
             if (i < visitedArr.length) {
+                //if i was pushed after the coin was found, set it to a different color
                 if (i >= coinIndex && coinIndex != 0) {
                     grid[visitedArr[i].row][visitedArr[i].col].visited = true;
                     var id = visitedArr[i].row * numSquaresInRow + visitedArr[i].col;
                     var element = document.getElementById(id);
                     element.classList.add("visited2");
+                    //if i was before a coin or there was no coin, have it set to one color
                 } else {
                     grid[visitedArr[i].row][visitedArr[i].col].visited = true;
                     var id = visitedArr[i].row * numSquaresInRow + visitedArr[i].col;
                     var element = document.getElementById(id);
                     element.classList.add("visited");
                 }
+                //if i is in path arr, display path arr
             } else {
-                grid[visitedArr[i - visitedArr.length].row][visitedArr[i - visitedArr.length].col].visited = false;
-                var id = pathArr[i - visitedArr.length].row * numSquaresInRow + pathArr[i - visitedArr.length].col;
-                var element = document.getElementById(id);
-                element.classList.add("path");
-                element.classList.remove("visited");
+                //if i is after coin was found, run this
+                if (i >= coinIndexPath + visitedArr.length && coinIndexPath != 0) {
+                    grid[visitedArr[i - visitedArr.length].row][visitedArr[i - visitedArr.length].col].visited = false;
+                    var id = pathArr[i - visitedArr.length].row * numSquaresInRow + pathArr[i - visitedArr.length].col;
+                    var element = document.getElementById(id);
+                    //if there is overlap between paths, set display to path 2
+                    if (element.classList.contains("path")) {
+                        element.classList.add("path2");
+                        element.classList.remove("visited");
+                        //if not, add class path
+                    } else {
+                        element.classList.add("path");
+                        element.classList.remove("visited");
+                    }
+                    //i is before coin was found, don't have to worry about path overlaps
+                } else {
+                    grid[visitedArr[i - visitedArr.length].row][visitedArr[i - visitedArr.length].col].visited = false;
+                    var id = pathArr[i - visitedArr.length].row * numSquaresInRow + pathArr[i - visitedArr.length].col;
+                    var element = document.getElementById(id);
+                    element.classList.add("path");
+                    element.classList.remove("visited");
+                }
             }
         }, 10 * i);
     }
 }
 
+//called on click, runs A*, same thing as above, just with a different algo
 export function onClickAstar() {
     removeAlgo();
     var returnedArr = Astar(grid, startRow, startCol, numSquaresInRow, numRowsInGrid, finishRow, finishCol);
@@ -154,6 +188,7 @@ export function onClickAstar() {
     }
 }
 
+//changes what will happen when you click on a node
 export function setClickOption(option) {
     clickOption = option;
     console.log(clickOption);
@@ -170,6 +205,7 @@ class Square extends React.Component {
         };
     }
 
+    //updates the grid to contain new values
     updateGrid() {
         removeAlgo();
         var newSquare = {
@@ -185,6 +221,12 @@ class Square extends React.Component {
         };
         grid[this.props.squareArr.row][this.props.squareArr.col] = newSquare;
     }
+
+    /*  //============================================\\
+    All of the "ChangeInside" functions make sure that the
+    correct behavior occurs when you click and drag, just
+    click, or any other click action you can do to a node
+        \\============================================// */
 
     changeInsideSquareMup() {
         this.setState({ update: !this.state.update });
@@ -283,6 +325,8 @@ class Square extends React.Component {
         this.updateGrid();
     }
 
+    //renders every node, checks if there needs to be an image in the node
+    //based on the value of one of the props values
     render() {
         var imgDisplay = [];
         if (this.props.squareArr.coin) {
