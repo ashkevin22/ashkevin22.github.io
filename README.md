@@ -2,4 +2,4 @@
 
 Webpage that allows you to visualize different pathing algorithms
 
-Created using React, HTML, and CSS.
+Created using React, HTML, CSS, and JavaScript.
