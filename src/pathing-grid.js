@@ -1,4 +1,4 @@
-import { djikstra } from "../algorithms/djikstra.js";
+import { dijkstra } from "../algorithms/dijkstra.js";
 import { Astar } from "../algorithms/A*.js";
 
 ("use strict");
@@ -85,11 +85,16 @@ function refreshGridResize() {
     return grid;
 }
 
-//when called, run and display the djikstra path
-export function onClickDjikstra() {
+function refreshGrid(){
+    const domContainer = document.querySelector("#pathing-grid-container");
+    ReactDOM.render(e(Grid, { gridArr: grid }), domContainer);
+}
+
+//when called, run and display the dijkstra path
+export function onClickDijkstra() {
     //remove previous algos
     removeAlgo();
-    var returnedArr = djikstra(grid, startRow, startCol, numSquaresInRow, numRowsInGrid);
+    var returnedArr = dijkstra(grid, startRow, startCol, numSquaresInRow, numRowsInGrid);
     var pathArr = returnedArr[0];
     var visitedArr = returnedArr[1];
     var coinIndex = returnedArr[2];
@@ -192,6 +197,31 @@ export function onClickAstar() {
 export function setClickOption(option) {
     clickOption = option;
     console.log(clickOption);
+}
+
+export function addRemoveCoin(){
+    for (let row = 0; row < numRowsInGrid; row++) {
+        for(let col = 0; col < numSquaresInRow; col++){
+            if(grid[row][col].coin == true){
+                grid[row][col].coin = false;
+                grid[row][col].empty = true;
+                document.getElementById("coinText").innerHTML = "Add Coin";
+                refreshGrid();
+                return;
+            }
+        }
+    }
+    for (let row = 0; row < numRowsInGrid; row++) {
+        for (let col = 0; col < numSquaresInRow; col++) {
+            if(grid[row][col].empty){
+                grid[row][col].coin = true;
+                grid[row][col].empty = false;
+                document.getElementById("coinText").innerHTML = "Remove Coin";
+                refreshGrid();
+                return;
+            }
+        }
+    }
 }
 
 //============End of function Declarations============\\

@@ -1,4 +1,4 @@
-export function djikstra(grid, startRow, startCol, colSize, rowSize) {
+export function dijkstra(grid, startRow, startCol, colSize, rowSize) {
     //init all vars
     var coinsCollected = 0;
     var coinCount = 0;
@@ -91,8 +91,12 @@ export function djikstra(grid, startRow, startCol, colSize, rowSize) {
     foundCoinIndex = visitedArr.length;
     //creates the pathArr by traversing the previous nodes
     while (currentNode != null) {
-        pathArr.unshift(currentNode);
-        currentNode = currentNode.previousNode;
+        if(currentNode.row != startRow || currentNode.col != startCol){
+            pathArr.unshift(currentNode);
+            currentNode = currentNode.previousNode;
+        }else{
+            currentNode = currentNode.previousNode;
+        }
     }
     //tracks when the coin was found in the pathArr,
     //allows for easier display when paths overlap
