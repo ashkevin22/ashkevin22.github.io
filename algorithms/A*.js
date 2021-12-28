@@ -88,7 +88,7 @@ export function Astar(grid, startRow, startCol, colSize, rowSize, finishRow, fin
                 if (rowVal >= 0 && colVal >= 0 && rowVal < rowSize && colVal < colSize && newGrid[rowVal][colVal].wall != true) {
                     newGrid[rowVal][colVal].g = currentNode.g + 1;
                     //using the manhattan heuristic to get the h value
-                    newGrid[rowVal][colVal].h = 1.01 * Math.abs(rowVal - coinRow) + Math.abs(colVal - coinCol);
+                    newGrid[rowVal][colVal].h = Math.abs(rowVal - coinRow) + Math.abs(colVal - coinCol);
                     //calculates the f value based on the h and g values
                     newGrid[rowVal][colVal].f = newGrid[rowVal][colVal].g + newGrid[rowVal][colVal].h;
                     addToOpen = true;
@@ -200,7 +200,7 @@ export function Astar(grid, startRow, startCol, colSize, rowSize, finishRow, fin
             if (rowVal >= 0 && colVal >= 0 && rowVal < rowSize && colVal < colSize && newGrid[rowVal][colVal].wall != true) {
                 newGrid[rowVal][colVal].g = currentNode.g + 1;
                 //using the manhattan heuristic to get the h value
-                newGrid[rowVal][colVal].h = 1.01* Math.abs(rowVal - finishRow) + Math.abs(colVal - finishCol);
+                newGrid[rowVal][colVal].h = Math.abs(rowVal - finishRow) + Math.abs(colVal - finishCol);
                 //calculates the f value based on the h and g values
                 newGrid[rowVal][colVal].f = newGrid[rowVal][colVal].g + newGrid[rowVal][colVal].h;
                 addToOpen = true;
