@@ -1,5 +1,5 @@
-import { dijkstra } from "../algorithms/dijkstra.js";
-import { Astar } from "../algorithms/A*.js";
+import { dijkstra } from "./algorithms/dijkstra.js";
+import { Astar } from "./algorithms/A*.js";
 
 ("use strict");
 
