@@ -90,11 +90,9 @@ export function dijkstra(grid, startRow, startCol, colSize, rowSize) {
     //tracks when the coin was found, allows for easier display of searched nodes
     foundCoinIndex = visitedArr.length;
     //creates the pathArr by traversing the previous nodes
-    while (currentNode != null) {
-        if(currentNode.row != startRow || currentNode.col != startCol){
+    if(coinCount != 0){
+        while (currentNode != null) {
             pathArr.unshift(currentNode);
-            currentNode = currentNode.previousNode;
-        }else{
             currentNode = currentNode.previousNode;
         }
     }
@@ -114,7 +112,7 @@ export function dijkstra(grid, startRow, startCol, colSize, rowSize) {
     newGrid[startRow][startCol].distance = 0;
     var currentNode = newGrid[startRow][startCol];
     //same functionality as the above while loop, but without coins
-    while (currentNode.isFinish != true) {
+    while (currentNode.finish != true) {
         dirs.forEach((dir) => {
             if (currentNode.row + dir[0] >= 0 && currentNode.col + dir[1] >= 0 && currentNode.row + dir[0] < rowSize && currentNode.col + dir[1] < colSize) {
                 var searchingNode = newGrid[currentNode.row + dir[0]][currentNode.col + dir[1]];

@@ -1,9 +1,9 @@
 .navbar-centering-left {
-    padding-left: 100px;
+    padding-left: 5%;
 }
 
 .navbar-centering-right {
-    padding-right: 100px;
+    padding-right: 5%;
 }
 
 .status {
@@ -65,13 +65,41 @@
 .nav-label-text {
     padding-bottom: 0px;
     margin-bottom: 0;
-    margin-left: -2px;
+    margin-left: -4px;
     font-size: 15px;
 }
 
 .add-coin{
     padding-bottom: 0px;
     margin-bottom: 0;
-    margin-left: -10px;
+    margin-left: -17px;
+    font-size: 15px;
+}
+
+.remove-coin{
+    padding-bottom: 0px;
+    margin-bottom: 0;
+    margin-left: -25px;
+    font-size: 15px;
+}
+
+.start-node-text{
+    padding-bottom: 0px;
+    margin-bottom: 0;
+    margin-left: -25px;
+    font-size: 15px;
+}
+
+.end-node-text{
+    padding-bottom: 0px;
+    margin-bottom: 0;
+    margin-left: -20px;
+    font-size: 15px;
+}
+
+.wall-text{
+    padding-bottom: 0px;
+    margin-bottom: 0;
+    margin-left: -22px;
     font-size: 15px;
 }

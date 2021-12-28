@@ -16,24 +16,33 @@
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
   <script type="module">
-    import { onClickDijkstra, onClickAstar, setClickOption, addRemoveCoin } from './src/pathing-grid.js'
+    import { onClickDijkstra, onClickAstar, clearWalls, addRemoveCoin } from './src/pathing-grid.js'
     window.onClickDijkstra = onClickDijkstra
     window.onClickAstar = onClickAstar
-    window.setClickOption = setClickOption
+    window.clearWalls = clearWalls
     window.addRemoveCoin = addRemoveCoin;
   </script>
 </head>
 
 <body>
   <nav class="navbar navbar-light bg-light">
-    <a class="navbar-brand navbar-centering-left" href="#">
-      <img src="img/pixelArrow.png" width="28" height="28" alt="">
-    </a>
-    <a class="navbar-brand" href="#" onClick="addRemoveCoin()">
+    <a class="navbar-brand navbar-centering-left" href="#" onClick="addRemoveCoin()">
       <img src="img/pixelCoin.png" width="28" height="28" alt="">
       <p class="nav-label-text add-coin" id="coinText">Add Coin</p>
     </a>
-    <div class="dropdown">
+    <a class="navbar-brand" href="#">
+      <img src="img/pixelArrow.png" width="28" height="28" alt="">
+      <p class="nav-label-text start-node-text">Start Node</p>
+    </a>
+    <a class="navbar-brand" href="#">
+      <img src="img/pixelTarget.png" width="30" height="30" alt="">
+      <p class="nav-label-text end-node-text">End Node</p>
+    </a>
+    <a class="navbar-brand" href="#" onclick="clearWalls();">
+      <img src="img/wall.png" width="30" height="30" alt="">
+      <p class="nav-label-text wall-text">Clear Walls</p>
+    </a>
+    <div class="dropdown navbar-centering-right">
       <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
         aria-haspopup="true" aria-expanded="false">
         Run Algorithm
@@ -43,10 +52,6 @@
         <a class="dropdown-item" href="#" onclick="onClickAstar();">A*</a>
       </div>
     </div>
-    <a class="navbar-brand navbar-centering-right" href="#" onclick="setClickOption(0)">
-      <img src="img/wall.png" width="30" height="30" alt="">
-      <p class="nav-label-text">Walls</p>
-    </a>
   </nav>
   <div id="pathing-grid-container" class="main-body">
     <!-- Load React. -->
