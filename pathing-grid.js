@@ -457,7 +457,7 @@ class Square extends React.Component {
         if (this.props.squareArr.coin) {
             imgDisplay.push(
                 e("img", {
-                    src: "../img/pixelCoin.png",
+                    src: "img/pixelCoin.png",
                     className: "img",
                     key: `${this.props.value}`,
                 })
@@ -466,7 +466,7 @@ class Square extends React.Component {
         if (this.props.squareArr.start) {
             imgDisplay.push(
                 e("img", {
-                    src: "../img/pixelArrow.png",
+                    src: "img/pixelArrow.png",
                     className: "img",
                     key: `${this.props.value}`,
                 })
@@ -475,7 +475,7 @@ class Square extends React.Component {
         if (this.props.squareArr.finish) {
             imgDisplay.push(
                 e("img", {
-                    src: "../img/pixelTarget.png",
+                    src: "img/pixelTarget.png",
                     className: "img",
                     key: `${this.props.value}`,
                 })
