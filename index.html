@@ -16,9 +16,10 @@
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
   <script type="module">
-    import { onClickDijkstra, onClickAstar, clearWalls, addRemoveCoin } from './src/pathing-grid.js'
+    import { onClickDijkstra, onClickAstar, onClickGreedyBFS, clearWalls, addRemoveCoin } from './src/pathing-grid.js'
     window.onClickDijkstra = onClickDijkstra
     window.onClickAstar = onClickAstar
+    window.onClickGreedyBFS = onClickGreedyBFS
     window.clearWalls = clearWalls
     window.addRemoveCoin = addRemoveCoin;
   </script>
@@ -50,6 +51,7 @@
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         <a class="dropdown-item" href="#" onclick="onClickDijkstra();">Dijkstra</a>
         <a class="dropdown-item" href="#" onclick="onClickAstar();">A*</a>
+        <a class="dropdown-item" href="#" onclick="onClickGreedyBFS();">Greedy BFS</a>
       </div>
     </div>
   </nav>
@@ -154,7 +156,7 @@
         </div>
         <div class="modal-body">
           <p>After you run the algorithm, you will see blue and yellow squares. The blue shows which squares were
-            searched, and the yellow shows the path that the pathing algorithm found
+            searched and the yellow shows the path that the algorithm found
             from the start to the finish.
           </p>
           <img src="img/pathImg.png" width="200px" style="display:block; margin-left:auto; margin-right:auto">

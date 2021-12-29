@@ -1,5 +1,6 @@
 import { dijkstra } from "../algorithms/dijkstra.js";
 import { Astar } from "../algorithms/A*.js";
+import { greedyBFS } from "../algorithms/greedyBFS.js";
 
 ("use strict");
 
@@ -96,7 +97,6 @@ function refreshGrid(){
 }
 
 function instructions(){
-    console.log("here");
     $('#instructionsModalPage1').modal('show')
 }
 
@@ -203,6 +203,71 @@ export function onClickAstar() {
             if (i < visitedArr.length) {
                 //if i was pushed after the coin was found, set it to a different color
                 if (i >= coinIndex && coinIndex != -1) {
+                    grid[visitedArr[i].row][visitedArr[i].col].visited = true;
+                    var id = visitedArr[i].row * numSquaresInRow + visitedArr[i].col;
+                    var element = document.getElementById(id);
+                    element.classList.add("visited2");
+                    //if i was before a coin or there was no coin, have it set to one color
+                } else {
+                    grid[visitedArr[i].row][visitedArr[i].col].visited = true;
+                    var id = visitedArr[i].row * numSquaresInRow + visitedArr[i].col;
+                    var element = document.getElementById(id);
+                    element.classList.add("visited");
+                }
+                //if i is in path arr, display path arr
+            } else {
+                //if i is after coin was found, run this
+                if (i >= coinIndexPath + visitedArr.length && coinIndexPath != 0) {
+                    grid[visitedArr[i - visitedArr.length].row][visitedArr[i - visitedArr.length].col].visited = false;
+                    var id = pathArr[i - visitedArr.length].row * numSquaresInRow + pathArr[i - visitedArr.length].col;
+                    var element = document.getElementById(id);
+                    //if there is overlap between paths, set display to path 2
+                    if (element.classList.contains("path")) {
+                        element.classList.add("path2");
+                        element.classList.remove("visited");
+                        //if not, add class path
+                    } else {
+                        element.classList.add("path");
+                        element.classList.remove("visited");
+                    }
+                    //i is before coin was found, don't have to worry about path overlaps
+                } else {
+                    grid[visitedArr[i - visitedArr.length].row][visitedArr[i - visitedArr.length].col].visited = false;
+                    var id = pathArr[i - visitedArr.length].row * numSquaresInRow + pathArr[i - visitedArr.length].col;
+                    var element = document.getElementById(id);
+                    element.classList.add("path");
+                    element.classList.remove("visited");
+                }
+            }
+        }, 10 * i);
+    }
+}
+
+export function onClickGreedyBFS(){
+    removeAlgo();
+    var returnedArr = greedyBFS(grid, startRow, startCol, finishRow, finishCol, numSquaresInRow, numRowsInGrid);
+    var pathArr = returnedArr[0];
+    var visitedArr = returnedArr[1];
+    var coinIndex = returnedArr[2];
+    var coinIndexPath = returnedArr[3];
+    //if a path was not found, only display the visitedArr
+    if (pathArr == -1) {
+        for (let i = 0; i < visitedArr.length; i++) {
+            setTimeout(() => {
+                grid[visitedArr[i].row][visitedArr[i].col].visited = true;
+                var id = visitedArr[i].row * numSquaresInRow + visitedArr[i].col;
+                var element = document.getElementById(id);
+                element.classList.add("visited");
+            }, 10 * i);
+        }
+        return;
+    }
+    //path was found
+    for (let i = 0; i < visitedArr.length + pathArr.length; i++) {
+        setTimeout(() => {
+            if (i < visitedArr.length) {
+                //if i was pushed after the coin was found, set it to a different color
+                if (i >= coinIndex && coinIndex != 1) {
                     grid[visitedArr[i].row][visitedArr[i].col].visited = true;
                     var id = visitedArr[i].row * numSquaresInRow + visitedArr[i].col;
                     var element = document.getElementById(id);
