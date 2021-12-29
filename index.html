@@ -62,4 +62,187 @@
     <!-- Load our React component. -->
     <script src="src/pathing-grid.js" type="module"></script>
   </div>
+
+  <script>
+    function changeTo(page) {
+      $('#instructionsModalPage1').modal('hide');
+      $('#instructionsModalPage2').modal('hide');
+      $('#instructionsModalPage3').modal('hide');
+      $('#instructionsModalPage4').modal('hide');
+      $('#instructionsModalPage5').modal('hide');
+      $('#instructionsModalPage6').modal('hide');
+      switch (page) {
+        case 1:
+          $('#instructionsModalPage1').modal('show');
+          break;
+        case 2:
+          $('#instructionsModalPage2').modal('show');
+          break;
+        case 3:
+          $('#instructionsModalPage3').modal('show');
+          break;
+        case 4:
+          $('#instructionsModalPage4').modal('show');
+          break;
+        case 5:
+          $('#instructionsModalPage5').modal('show');
+          break;
+        case 6:
+          $('#instructionsModalPage6').modal('show');
+          break;
+      }
+    }
+  </script>
+
+  <div class="modal" tabindex="-1" id="instructionsModalPage1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Instructions</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>This is a pathing algorithm visualizer. It shows how different pathing algorithms work and the path that
+            they find from the start to the finish!<br /><br />
+            The two symbols below are the start and finish nodes. The arrow (on the left) is the start node and the
+            target (on the right) is the finish node.
+          </p>
+          <img src="img/arrowAndTarget.png" width="200px" style="display:block; margin-left:auto; margin-right:auto">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" onclick="changeTo(2);">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" tabindex="-1" id="instructionsModalPage2" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Instructions</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>You can move the start and finish nodes by clicking on them and dragging.<br /><br />
+            When you are ready, you can click on the "Run Algorithm" button and you can select the algorithm that you
+            want to run from the dropdown.
+          </p>
+          <img src="img/runAlgoExample.png" width="200px" style="display:block; margin-left:auto; margin-right:auto">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="changeTo(1);">Back</button>
+          <button type="button" class="btn btn-primary" onclick="changeTo(3);">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal" tabindex="-1" id="instructionsModalPage3" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Instructions</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>After you run the algorithm, you will see blue and yellow squares. The blue shows which squares were
+            searched, and the yellow shows the path that the pathing algorithm found
+            from the start to the finish.
+          </p>
+          <img src="img/pathImg.png" width="200px" style="display:block; margin-left:auto; margin-right:auto">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="changeTo(2);">Back</button>
+          <button type="button" class="btn btn-primary" onclick="changeTo(4);">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal" tabindex="-1" id="instructionsModalPage4" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Instructions</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>You can also add walls, which are shown by the black squares, that the pathing algorithms
+            cannot go through. <br /><br />
+            To clear all of the walls, you can click on the "Clear Walls" button at the top of the screen.
+          </p>
+          <img src="img/wallsBtnExample.png" width="150px" style="display:block; margin-left:auto; margin-right:auto">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="changeTo(3);">Back</button>
+          <button type="button" class="btn btn-primary" onclick="changeTo(5);">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" tabindex="-1" id="instructionsModalPage5" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Instructions</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Another thing that you can add is a coin. When there is a coin in one of the squares, the pathing algorithm
+            must first collect the coin before reaching the finish. <br /><br />
+            A coin can be added by clicking the "Add Coin" button and removed by clicking the same button, which will
+            be changed to "Remove Coin" when there is already a coin. The coin can be moved by clicking and dragging,
+            just like the start and finish nodes.
+          </p>
+          <img src="img/coinBtnExample.png" width="150px" style="display:block; margin-left:auto; margin-right:auto">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="changeTo(4);">Back</button>
+          <button type="button" class="btn btn-primary" onclick="changeTo(6);">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" tabindex="-1" id="instructionsModalPage6" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Instructions</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>When a coin is added, the algorithm is run two different times. It runs once to find the coin (which is
+            displayed in blue) and once to find the target (which is displayed in green) <br /><br />
+            The path is still displayed in yellow unless the path to the coin and the path to the finish overlap. If the
+            two paths overlap, the color of the overlapped squares will be changed to purple.
+          </p>
+          <img src="img/coinPathImg.png" width="200px" style="display:block; margin-left:auto; margin-right:auto">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="changeTo(5);">Back</button>
+          <button type="button" class="btn btn-primary" onclick="changeTo(0);">Finish</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
 </body>

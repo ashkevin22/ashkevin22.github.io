@@ -103,3 +103,33 @@
     margin-left: -22px;
     font-size: 15px;
 }
+
+.modal-dialog {
+ 
+    width: 360px;
+
+    height:850px !important;
+
+  }
+
+.modal-content {
+
+/* 80% of window height */
+
+height: 60%;
+
+background-color:#BBD6EC;
+
+}       
+
+.modal-header {
+
+background-color: rgb(48, 112, 231);
+
+padding:16px 16px;
+
+color:#FFF;
+
+border-bottom:2px dashed #337AB7;
+
+}

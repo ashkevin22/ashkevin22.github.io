@@ -80,6 +80,11 @@ function refreshGridResize() {
     }
     //remove any leftover path or visited nodes
     removeAlgo();
+
+    var textElement = document.getElementById("coinText");
+    textElement.innerHTML = "Add Coin";
+    textElement.className = "add-coin";
+
     const domContainer = document.querySelector("#pathing-grid-container");
     ReactDOM.render(e(Grid, { gridArr: grid }), domContainer);
     return grid;
@@ -90,12 +95,17 @@ function refreshGrid(){
     ReactDOM.render(e(Grid, { gridArr: grid }), domContainer);
 }
 
+function instructions(){
+    console.log("here");
+    $('#instructionsModalPage1').modal('show')
+}
+
 export function clearWalls(){
     for (let row = 0; row < numRowsInGrid; row++) {
         for (let col = 0; col < numSquaresInRow; col++) {
             if(grid[row][col].wall == true){
                 grid[row][col].wall = false;
-                grid[row][col].empty = false;
+                grid[row][col].empty = true;
             }
         }
     }
@@ -248,11 +258,18 @@ export function addRemoveCoin(){
             }
         }
     }
-    for (let row = 0; row < numRowsInGrid; row++) {
-        for (let col = 0; col < numSquaresInRow; col++) {
-            if(grid[row][col].empty){
-                grid[row][col].coin = true;
-                grid[row][col].empty = false;
+    var startSearchRow = Math.floor(numRowsInGrid/2);
+    var startSearchCol = Math.floor(numSquaresInRow/2);
+    for (let row = startSearchRow; row < numRowsInGrid; row++) {
+        for (let col = startSearchCol; col < numSquaresInRow; col++) {
+            if(grid[row][col].empty || grid[row][col].wall){
+                if(grid[row][col].wall){
+                    grid[row][col].coin = true;
+                    grid[row][col].wall = false;
+                }else{
+                    grid[row][col].coin = true;
+                    grid[row][col].empty = false;
+                }
                 textElement = document.getElementById("coinText")
                 textElement.innerHTML = "Remove Coin";
                 textElement.className = "remove-coin"
@@ -315,16 +332,20 @@ class Square extends React.Component {
                     startCol = newCol;
                     grid[row][col].start = false;
                     grid[newRow][newCol].start = true;
+                    grid[newRow][newCol].empty = false;
                     this.props.squareArr.start = false;
                 }else if(movedObj == 2){
                     finishRow = newRow;
                     finishCol = newCol;
                     grid[row][col].finish = false;
                     grid[newRow][newCol].finish = true;
+                    grid[newRow][newCol].empty = false;
                     this.props.squareArr.finish = false;
                 }else if(movedObj == 3){
                     grid[row][col].coin = false;
                     grid[newRow][newCol].coin = true;
+                    grid[newRow][newCol].empty = false;
+                    this.props.squareArr.coin =false;
                 }
                 break;
             }
@@ -344,6 +365,16 @@ class Square extends React.Component {
             if(dragStart){
                 this.collision(1);
             }else if(dragFinish){
+                this.collision(2);
+            }
+        }else if(this.props.squareArr.coin && this.props.squareArr.row == startRow && this.props.squareArr.col == startCol){
+            if(dragStart){
+                this.collision(1);
+            }else if(dragCoin){
+                this.collision(3);
+            }
+        }else if(this.props.squareArr.coin && this.props.squareArr.row == finishRow && this.props.squareArr.col == finishCol){
+            if(dragFinish){
                 this.collision(2);
             }else if(dragCoin){
                 this.collision(3);
@@ -529,3 +560,4 @@ class Grid extends React.Component {
 grid = refreshGridResize();
 
 window.addEventListener("resize", refreshGridResize);
+window.addEventListener("load", instructions);
